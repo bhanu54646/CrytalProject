@@ -1,0 +1,14 @@
+spring:
+  mail:
+    host: smtp.office365.com
+    port: 587
+    username: bhanu.yadav@lumiq.ai
+    password: Ba@$9901
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
