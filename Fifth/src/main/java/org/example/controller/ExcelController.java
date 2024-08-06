@@ -44,16 +44,20 @@ public class ExcelController {
     @GetMapping("/getParkingData")
     public ResponseEntity<Map<String, Object>> getParkingData(@RequestParam("applicatinNo") String applicationNo) {
         Map<String, Object> map = new HashMap<>();
-        if (applicationNo == null || applicationNo.isEmpty()) {
-            map.put("StatusMessage","badRequest");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(map);
+        try {
+            if (applicationNo == null || applicationNo.isEmpty()) {
+                map.put("StatusMessage", "badRequest");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(map);
+            }
+            map = parkingDataService.getParkingData(applicationNo);
+            HttpStatus status = map.containsValue("200") ? HttpStatus.FOUND : HttpStatus.NOT_FOUND;
+            return ResponseEntity.status(status).body(map);
+        } catch (Exception e) {
+
+            map.put("statusMessage", e.getMessage());
+            map.put("statuscode", "E500");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
         }
-         map  = parkingDataService.getParkingData(applicationNo);
-
-        HttpStatus status=map.containsValue("200")?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
-              return ResponseEntity.status(status).body(map);
-
-//
 //        if (map.containsValue("200")) {
 //            return ResponseEntity.status(HttpStatus.FOUND).body(map);
 //        } else {

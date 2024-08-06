@@ -21,7 +21,13 @@ public class ParkingDataService {
 
         PayBankParkingEntity paybank = payBankParkingRepository.getDataByApplicationNo(applicationNo);
 
+
         if (paybank != null) {
+
+            if (paybank.getBranch_name().isEmpty()) {
+
+                throw new RuntimeException("Branch code cannot be null");
+            }
             map.put("StatusMessage", "data fetched succesfully for" + " " + applicationNo);
             map.put("StatusCode", "200");
             map.put("response", paybank);
