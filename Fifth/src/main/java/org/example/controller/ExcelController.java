@@ -20,8 +20,9 @@ public class ExcelController {
 
     @PostMapping("/upload")
     public ResponseEntity<Map<String, String>> uploadExcelFile(@RequestParam("file") MultipartFile file) {
+        Map<String, String> response = null;
         try {
-            Map<String, String> response = excelService.kimportExcelData(file);
+            response = excelService.kimportExcelData(file);
             // Return ResponseEntity based on the response map's status
             if ("200".equals(response.get("statusCode"))) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(response);
