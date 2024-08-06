@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -42,14 +43,25 @@ public class ExcelController {
 
     @GetMapping("/getParkingData")
     public ResponseEntity<Map<String, Object>> getParkingData(@RequestParam("applicatinNo") String applicationNo) {
-
-        Map<String, Object> response = parkingDataService.getParkingData(applicationNo);
-        if (response.containsValue("200")) {
-            return ResponseEntity.status(HttpStatus.FOUND).body(response);
-        } else {
-
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        Map<String, Object> map = new HashMap<>();
+        if (applicationNo == null || applicationNo.isEmpty()) {
+            map.put("StatusMessage","badRequest");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(map);
         }
+         map  = parkingDataService.getParkingData(applicationNo);
+
+        HttpStatus status=map.containsValue("200")?HttpStatus.FOUND:HttpStatus.NOT_FOUND;
+              return ResponseEntity.status(status).body(map);
+
+//
+//        if (map.containsValue("200")) {
+//            return ResponseEntity.status(HttpStatus.FOUND).body(map);
+//        } else {
+//
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
+//        }
 
     }
+
+
 }
