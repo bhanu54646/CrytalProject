@@ -52,11 +52,11 @@ public class ExcelController {
             map = parkingDataService.getParkingData(applicationNo);
             HttpStatus status = map.containsValue("200") ? HttpStatus.FOUND : HttpStatus.NOT_FOUND;
             return ResponseEntity.status(status).body(map);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
 
-            map.put("statusMessage", e.getMessage());
+            map.put("statusMessage",e.getMessage());
             map.put("statuscode", "E500");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(map);
         }
 //        if (map.containsValue("200")) {
 //            return ResponseEntity.status(HttpStatus.FOUND).body(map);

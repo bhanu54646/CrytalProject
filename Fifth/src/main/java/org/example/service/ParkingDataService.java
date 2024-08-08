@@ -18,15 +18,12 @@ public class ParkingDataService {
 
     public Map<String, Object> getParkingData(String applicationNo) {
         Map<String, Object> map = new HashMap<>();
-
         PayBankParkingEntity paybank = payBankParkingRepository.getDataByApplicationNo(applicationNo);
-
-
         if (paybank != null) {
 
-            if (paybank.getBranch_name().isEmpty()) {
+            if (paybank.getBranch_name()==null ||paybank.getBranch_name().isEmpty()||paybank.getBranch_name().isBlank()) {
 
-                throw new RuntimeException("Branch code cannot be null");
+                throw new RuntimeException("Branch code cannot be blank");
             }
             map.put("StatusMessage", "data fetched succesfully for" + " " + applicationNo);
             map.put("StatusCode", "200");
