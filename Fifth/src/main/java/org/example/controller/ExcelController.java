@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.service.BranchServiceImpl;
 import org.example.service.ExcelService;
 import org.example.service.ParkingDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -22,6 +24,9 @@ public class ExcelController {
     ExcelService excelService;
     @Autowired
     ParkingDataService parkingDataService;
+
+    @Autowired
+    BranchServiceImpl branchService;
 
 
     @PostMapping("/upload")
@@ -54,7 +59,7 @@ public class ExcelController {
             return ResponseEntity.status(status).body(map);
         } catch (RuntimeException e) {
 
-            map.put("statusMessage",e.getMessage());
+            map.put("statusMessage", e.getMessage());
             map.put("statuscode", "E500");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(map);
         }
@@ -64,6 +69,14 @@ public class ExcelController {
 //
 //            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
 //        }
+
+    }
+
+    @GetMapping("/getBranches")
+    public List<String> rigetBranchName(@RequestParam("name") String branch) {
+        System.out.println(branch);
+        return branchService.getBranchName(branch);
+
 
     }
 

@@ -22,6 +22,8 @@ public class InvestigatorController {
 
     @PostMapping("/assign/to/investigator")
     public Map<String, Object> acceptinvestigation(@RequestBody Investigators request) {
+
+        System.out.println(request);
         return investigatorService.acceptinvestigation(request);
     }
 
