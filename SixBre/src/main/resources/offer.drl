@@ -6,6 +6,7 @@ when
     $order : Order(cardType == "HDFC" && price > 10000)
 then
     $order.setDiscount(10);
+    $order.setName("Test");
 end
 
 rule "ICICI"
