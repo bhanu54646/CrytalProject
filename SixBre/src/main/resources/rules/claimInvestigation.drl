@@ -5,5 +5,14 @@ rule "High Claim Amount So investigation Will be required"
 when
     $claimInvestigationRequest : ClaimInvestigationRequest(claimAmount>100000 && causeOfDeath=="Natural")
 then
- $claimInvestigationRequest.setInvestigationRequired("Yes");
-  end
+    $claimInvestigationRequest.setInvestigationRequired("Yes");
+end
+
+rule "Low Claim Amount"
+
+when
+     $claimInvestigationRequest:ClaimInvestigationRequest(claimAmount<=100000 && causeOfDeath=="Unnatural")
+then
+
+     $claimInvestigationRequest.setInvestigationRequired("No");
+end

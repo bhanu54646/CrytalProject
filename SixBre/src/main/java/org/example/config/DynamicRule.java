@@ -41,12 +41,8 @@ public class DynamicRule {
 
         KieSession kieSession = kieContainer.newKieSession();
         kieSession.insert(request);
-        // Fire all rules
         kieSession.fireAllRules();
-
-        // Since the response is the same as the request, we just return the modified request object
         T response = request;
-
         kieSession.dispose();
         return response;
     }
