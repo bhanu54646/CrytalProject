@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dao.DiscountResponse;
 import org.example.model.Order;
 import org.example.service.Discount;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class MegaOfferController {
     Discount discount;
 
     @PostMapping("/getdiscountpercent")
-    public Order getdiscount(@RequestBody Order request) throws IOException {
+    public DiscountResponse getdiscount(@RequestBody Order request) throws IOException {
         return discount.getdiscount(request);
     }
 
