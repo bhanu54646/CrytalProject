@@ -1,5 +1,7 @@
 package org.example.controller;
 
+import org.example.dao.ClaimInvestigationRequest;
+import org.example.dao.ClaimInvestigationResponse;
 import org.example.dao.DiscountResponse;
 import org.example.model.Order;
 import org.example.service.Discount;
@@ -21,4 +23,8 @@ public class MegaOfferController {
         return discount.getdiscount(request);
     }
 
+    @PostMapping("/executeInvestigationRule")
+    public ClaimInvestigationResponse executeInvestigationRule(@RequestBody ClaimInvestigationRequest request) {
+        return discount.executeInvestigationRule(request);
+    }
 }

@@ -1,0 +1,9 @@
+import org.example.dao.ClaimInvestigationRequest;
+
+rule "High Claim Amount So investigation Will be required"
+
+when
+    $claimInvestigationRequest : ClaimInvestigationRequest(claimAmount>100000 && causeOfDeath=="Natural")
+then
+ $claimInvestigationRequest.setInvestigationRequired("Yes");
+  end

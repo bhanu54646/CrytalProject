@@ -1,12 +1,8 @@
 package org.example.config;
 
-import org.example.dao.ClaimInvestigationRequest;
-import org.example.dao.DiscountResponse;
-import org.example.model.Order;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
-import org.kie.api.io.Resource;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.io.ResourceFactory;
@@ -32,8 +28,9 @@ public class DynamicRule {
             throw new RuntimeException("Failed to read DRL file: " + drlFilePath, e);
         }
     }
-    public DiscountResponse executeSequentialRules(String drl, Order request)
-            throws NoSuchFieldException, IllegalAccessException {
+
+    public <T> T executeRules(String drl, T request) throws Exception {
+        KieServices kieServices = KieServices.Factory.get();
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
 
         // Write DRL content with a source path
@@ -44,10 +41,13 @@ public class DynamicRule {
 
         KieSession kieSession = kieContainer.newKieSession();
         kieSession.insert(request);
+        // Fire all rules
         kieSession.fireAllRules();
-        DiscountResponse dis=new DiscountResponse();
-        dis.setStatusMessage("discount fetched successfully");
-        dis.setDiscount(request.getDiscount());
-        return  dis;
+
+        // Since the response is the same as the request, we just return the modified request object
+        T response = request;
+
+        kieSession.dispose();
+        return response;
     }
 }
