@@ -3,23 +3,33 @@ package org.example.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 import org.example.dao.ClaimInvestigationRequest;
 import org.example.dao.ClaimInvestigationResponse;
 import org.example.dao.DiscountResponse;
+import org.example.dao.MedicalClaimRequest;
 import org.example.model.Order;
 import org.example.model.RequestLogging;
 import org.example.repository.RequestLoggingRepo;
 import org.example.service.Discount;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Map;
 
+@Log4j2
 @RestController
+@RequestMapping("/bre/v1")
 public class MegaOfferController {
 
+    private static final Logger log = LoggerFactory.getLogger(MegaOfferController.class);
     @Autowired
     Discount discount;
     @Autowired
@@ -36,6 +46,7 @@ public class MegaOfferController {
     @PostMapping("/execute/investigation/rule/v1")
     public ClaimInvestigationResponse executeInvestigationRule(@RequestBody ClaimInvestigationRequest request) throws JsonProcessingException {
         RequestLogging requestlog = new RequestLogging();
+        log.info("Request Body for investigatinApi" + request);
         ClaimInvestigationResponse response = discount.executeInvestigationRule(request);
         requestlog.setApiType("Investigation-Rules-Api");
         requestlog.setRequestMethod("POST");
@@ -52,4 +63,13 @@ public class MegaOfferController {
         requestLoggingRepo.save(requestlog);
         return response;
     }
+
+    @PostMapping("/rules/medical")
+    public Map<String, Object> medicalRules(@RequestBody MedicalClaimRequest request) throws Exception {
+
+        log.info("requestbody" + "----->" + request);
+
+        return discount.executeMedicalRules(request);
+    }
+
 }

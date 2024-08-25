@@ -1,0 +1,34 @@
+import org.example.dao.MedicalClaimRequest;
+
+rule "High MedicalCost Requires Investigation "
+
+when
+    $medicalClaimRequest:MedicalClaimRequest(medicalCost>50000)
+then
+
+    $medicalClaimRequest.setInvestigationRequired("YES");
+
+ end
+
+
+ rule "if treatment type is Routine and medical cost is less then and equal to 50000"
+
+ when
+     $medicalClaimRequest:MedicalClaimRequest(medicalCost<=50000 && treatmentype=="Routine")
+
+ then
+         $medicalClaimRequest.setInvestigationRequired("NO");
+
+ end
+
+
+rule "Review Required if Condition is critical"
+when
+
+   $medicalClaimRequest:MedicalClaimRequest(criticalCondition==true)
+
+then
+
+   $medicalClaimRequest.setImmediateReviewRequired("YES");
+
+end

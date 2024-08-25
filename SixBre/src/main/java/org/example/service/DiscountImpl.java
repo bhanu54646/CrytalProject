@@ -4,13 +4,17 @@ import org.example.config.DynamicRule;
 import org.example.dao.ClaimInvestigationRequest;
 import org.example.dao.ClaimInvestigationResponse;
 import org.example.dao.DiscountResponse;
+import org.example.dao.MedicalClaimRequest;
 import org.example.model.Order;
 import org.example.model.RequestLogging;
 import org.example.repository.RequestLoggingRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class DiscountImpl implements Discount {
@@ -55,5 +59,24 @@ public class DiscountImpl implements Discount {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Map<String,Object> executeMedicalRules(MedicalClaimRequest request) throws Exception {
+
+        Map<String,Object> map=new HashMap<>();
+
+        MedicalClaimRequest response = new MedicalClaimRequest();
+        String updatedDrl = null;
+        try {
+            updatedDrl = dynamicRule.readClaimDrl("medicalRule");
+            response = dynamicRule.executeRules(updatedDrl, request);
+            map.put("InvestigationRequired", response.getInvestigationRequired());
+            map.put("statusMessage", "medicalRulesExecutedSuccessfully");
+            map.put("review required",response.getImmediateReviewRequired());
+            return map;
+        }
+        catch (FileNotFoundException e){
+        throw new RuntimeException(e);}
     }
 }
