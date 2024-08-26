@@ -66,9 +66,7 @@ public class MegaOfferController {
 
     @PostMapping("/rules/medical")
     public Map<String, Object> medicalRules(@RequestBody MedicalClaimRequest request) throws Exception {
-
         log.info("requestbody" + "----->" + request);
-
         return discount.executeMedicalRules(request);
     }
 

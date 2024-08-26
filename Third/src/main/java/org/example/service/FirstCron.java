@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FirstCron {
-    @Scheduled(cron = "0 * * * * *")
+   // @Scheduled(cron = "0 * * * * *")
     @SchedulerLock(name = "FIRST-CRON-SCHEDULING", lockAtLeastFor = "2m",lockAtMostFor = "3m")
     public void ScheduleTask() {
         System.out.println("hiii my first cron for checking");

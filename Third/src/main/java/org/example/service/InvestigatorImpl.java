@@ -103,6 +103,12 @@ public class InvestigatorImpl implements InvestigatorService {
         }
 
     }
+
+    @Override
+    public String getInvestDetails(int caseID) {
+       Investigators ar= investigatorRepository.getInvestigatorByCaseiD(caseID);
+      return ar.getInvestigatorName();
+    }
 }
 
 

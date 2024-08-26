@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface InvestigatorRepository extends JpaRepository<Investigators,Integer> {
     @Query("select p from  Investigators p where p.investigatorId=?1")
     public Investigators findinvestigatorbyId(int id);
+
+    @Query("select p from Investigators p where p.caseID=?1")
+    public  Investigators getInvestigatorByCaseiD(int caseID);
 }
