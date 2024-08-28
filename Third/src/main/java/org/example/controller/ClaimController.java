@@ -26,6 +26,7 @@ public class ClaimController {
 
     @PostMapping("get/case/details/v1")
     public String getCaseDetails(@RequestBody int caseID) {
+        System.out.println("faa");
         return claimService.getCaseDetails(caseID);
 
     }
