@@ -37,6 +37,7 @@ public class InvestigatorController {
     @PostMapping("/get/CaseDetails/from/Investigator")
     public String getInvestDetails(@RequestBody int caseID)
     {
+        System.out.println(caseID+"--------------->");
      return investigatorService.getInvestDetails(caseID);
 
     }

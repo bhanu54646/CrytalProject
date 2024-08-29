@@ -1,13 +1,19 @@
 package org.example.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.Model.CaseDetailEntity;
+import org.example.constants.Constants;
 import org.example.dao.ClaimRequest;
 import org.example.repository.ClaimRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.Base64;
 
 @Service
 public class ClaimServiceImpl implements ClaimService {
@@ -38,8 +44,21 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
-    public String getCaseDetails(int caseID) {
-        String response = restTemplate.postForObject(investigatorUri,caseID,String.class);
-        return response;
+    public String getCaseDetails(int caseID) throws JsonProcessingException {
+
+         HttpHeaders headers = new HttpHeaders();
+         headers.setBasicAuth(Constants.username,Constants.password);
+         headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
+         ObjectMapper objectMapper = new ObjectMapper();
+         String caseIDJson = objectMapper.writeValueAsString(caseID);
+         HttpEntity<String> entity = new HttpEntity<>(caseIDJson, headers);
+         ResponseEntity<String> responseEntity = restTemplate.exchange(
+                investigatorUri,
+                HttpMethod.POST,
+                entity,
+                String.class
+        );
+
+        return responseEntity.getBody();
     }
 }

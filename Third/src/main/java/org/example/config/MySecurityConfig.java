@@ -1,5 +1,6 @@
 package org.example.config;
 
+import org.example.constants.Constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,8 +28,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/claims/**").hasRole("normal")
-                .antMatchers("/investigator/**").hasRole("normal")
+                .antMatchers(Constants.claimUrl).permitAll()
+                .antMatchers(Constants.investigorUrl).hasRole((Constants.role))
                 .anyRequest().authenticated()
                 .and().httpBasic();
                }
@@ -37,7 +38,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected  void configure(AuthenticationManagerBuilder auth) throws Exception
     {
-          auth.inMemoryAuthentication().withUser("user").password("pass").roles("normal");
+          auth.inMemoryAuthentication().withUser(Constants.username).password(Constants.password).roles(Constants.role);
     }
 
 
