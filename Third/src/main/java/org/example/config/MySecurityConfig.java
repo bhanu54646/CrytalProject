@@ -33,14 +33,11 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().httpBasic();
                }
 
-
     @Override
     protected  void configure(AuthenticationManagerBuilder auth) throws Exception
     {
           auth.inMemoryAuthentication().withUser(Constants.username).password(Constants.password).roles(Constants.role);
     }
-
-
     @Bean
     public PasswordEncoder passwordEncoder()
     {
