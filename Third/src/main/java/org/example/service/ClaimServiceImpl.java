@@ -42,23 +42,13 @@ public class ClaimServiceImpl implements ClaimService {
         System.out.println(c);
         return "added";
     }
-
     @Override
     public String getCaseDetails(int caseID) throws JsonProcessingException {
-
-         HttpHeaders headers = new HttpHeaders();
-         headers.setBasicAuth(Constants.username,Constants.password);
-         headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
-         ObjectMapper objectMapper = new ObjectMapper();
-         String caseIDJson = objectMapper.writeValueAsString(caseID);
-         HttpEntity<String> entity = new HttpEntity<>(caseIDJson, headers);
-         ResponseEntity<String> responseEntity = restTemplate.exchange(
-                investigatorUri,
-                HttpMethod.POST,
-                entity,
-                String.class
-        );
-
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth(Constants.username, Constants.password);
+        headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
+        HttpEntity<Integer> entity = new HttpEntity<>(caseID, headers);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(investigatorUri, HttpMethod.POST, entity, String.class);
         return responseEntity.getBody();
     }
 }

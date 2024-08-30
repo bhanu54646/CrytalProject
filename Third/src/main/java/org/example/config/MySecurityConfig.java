@@ -25,8 +25,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception
     {
 
-        http
-                .csrf().disable()
+        http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers(Constants.claimUrl).permitAll()
                 .antMatchers(Constants.investigorUrl).hasRole((Constants.role))
