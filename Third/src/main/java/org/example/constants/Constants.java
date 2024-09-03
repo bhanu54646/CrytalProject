@@ -7,4 +7,5 @@ public class Constants {
     public static final  String role="normal";
     public static final String claimUrl="/claims/**";
     public static final String investigorUrl="/investigator/**";
+    public static final String  dummyurl="/Third/**";
 }

@@ -28,6 +28,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers(Constants.claimUrl).permitAll()
+                .antMatchers(Constants.dummyurl).permitAll()
                 .antMatchers(Constants.investigorUrl).hasRole((Constants.role))
                 .anyRequest().authenticated()
                 .and().httpBasic();
