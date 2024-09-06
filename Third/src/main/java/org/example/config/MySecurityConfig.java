@@ -29,7 +29,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(Constants.claimUrl).permitAll()
                 .antMatchers(Constants.dummyurl).permitAll()
-                .antMatchers(Constants.investigorUrl).hasRole((Constants.role))
+                .antMatchers(Constants.investigorUrl).permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic();
                }
@@ -38,6 +38,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     protected  void configure(AuthenticationManagerBuilder auth) throws Exception
     {
           auth.inMemoryAuthentication().withUser(Constants.username).password(Constants.password).roles(Constants.role);
+          auth.inMemoryAuthentication().withUser(Constants.username1).password(Constants.password1).roles(Constants.role1);
     }
     @Bean
     public PasswordEncoder passwordEncoder()

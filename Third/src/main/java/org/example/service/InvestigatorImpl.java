@@ -6,14 +6,18 @@ import org.example.Model.Investigators;
 import org.example.dao.AssignToApproverRequest;
 import org.example.dao.AssignToInvestigatorRequest;
 
+import org.example.dao.InvestiGatorResponse;
+import org.example.dao.InvestigatorRequest;
 import org.example.repository.ApproverRepository;
 import org.example.repository.ClaimRepository;
 import org.example.repository.InvestigatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 //import org.springframework.web.context.support.GroovyWebApplicationContext;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,7 +29,6 @@ public class InvestigatorImpl implements InvestigatorService {
 
     @Autowired
     ApproverRepository approverRepository;
-
 
 
     @Override
@@ -91,8 +94,8 @@ public class InvestigatorImpl implements InvestigatorService {
 
                 //a.Common("NOT FOUND");
                 map.put("statusMessage", "case details not found");
-                map.put("statuscode","200");
-               map.put("","");
+                map.put("statuscode", "200");
+                map.put("", "");
                 return map;
             }
         } else {
@@ -106,8 +109,28 @@ public class InvestigatorImpl implements InvestigatorService {
 
     @Override
     public String getInvestDetails(int caseID) {
-       Investigators ar= investigatorRepository.getInvestigatorByCaseiD(caseID);
-      return ar.getInvestigatorName();
+        Investigators ar = investigatorRepository.getInvestigatorByCaseiD(caseID);
+        return ar.getInvestigatorName();
+    }
+
+    @Override
+    public InvestiGatorResponse getdetails(InvestigatorRequest request) {
+        List<Investigators> investigator = investigatorRepository.getInvestigators(request.getApproverName());
+
+        InvestiGatorResponse response = new InvestiGatorResponse();
+        if (investigator.isEmpty()) {
+            response.setStatusCode("200");
+            response.setStatusMessage("sucess");
+            response.setInvestigators(investigator);
+            return response;
+        } else {
+            response.setStatusCode("400");
+            response.setStatusMessage("no details available");
+            response.setInvestigators(investigator);
+
+            return response;
+        }
+
     }
 }
 
