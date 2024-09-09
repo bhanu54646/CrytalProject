@@ -13,10 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,5 +64,24 @@ public class InvestigatorController {
         }
     }
 
+    @PostMapping("/get/investigator")
+    public ResponseEntity<InvestiGatorResponse> getInvetigatorByid(@RequestParam int investigatorId) {
+
+        try {
+            InvestiGatorResponse res = investigatorService.getInvetigatorByid(investigatorId);
+
+            return ResponseEntity.status(HttpStatus.OK).body(res);
+        } catch (Exception e) {
+
+            List<Investigators> lis = new ArrayList<>();
+            InvestiGatorResponse res = new InvestiGatorResponse();
+            res.setStatusCode("400");
+            res.setStatusMessage(e.getMessage());
+            res.setInvestigators(lis);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+
+        }
+
+    }
 
 }

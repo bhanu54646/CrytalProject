@@ -8,14 +8,17 @@ import org.example.dao.AssignToInvestigatorRequest;
 
 import org.example.dao.InvestiGatorResponse;
 import org.example.dao.InvestigatorRequest;
+import org.example.exceptionHandling.ResourceNotFoundException;
 import org.example.repository.ApproverRepository;
 import org.example.repository.ClaimRepository;
 import org.example.repository.InvestigatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 //import org.springframework.web.context.support.GroovyWebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,6 +134,22 @@ public class InvestigatorImpl implements InvestigatorService {
             return response;
         }
 
+    }
+
+    @Override
+    public InvestiGatorResponse getInvetigatorByid(int investigatorId) {
+        Investigators in = investigatorRepository.findinvestigatorbyId(investigatorId);
+        List<Investigators> li = new ArrayList<>();
+        if (in == null) {
+            throw new ResourceNotFoundException("NO INVESTIGATOR FOUND");
+        } else {
+            InvestiGatorResponse response = new InvestiGatorResponse();
+            response.setStatusCode("200");
+            response.setStatusMessage("data fetched successfully");
+            li.add(in);
+            response.setInvestigators(li);
+            return response;
+        }
     }
 }
 

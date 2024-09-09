@@ -21,5 +21,6 @@ public interface InvestigatorService {
     public Map<String,Object> assingCasetoapprover(AssignToApproverRequest request);
     public String getInvestDetails(int caseId);
     public InvestiGatorResponse getdetails(InvestigatorRequest request) ;
+    public InvestiGatorResponse getInvetigatorByid(int investigatorId);
     }
 ;
