@@ -66,13 +66,14 @@ public class InvestigatorController {
 
     @PostMapping("/get/investigator")
     public ResponseEntity<InvestiGatorResponse> getInvetigatorByid(@RequestParam int investigatorId) {
-
+        log.info("Request Body for /get/investigator is--------------->" + " " + investigatorId);
         try {
             InvestiGatorResponse res = investigatorService.getInvetigatorByid(investigatorId);
-
+            log.info("Response Body for /get/investigator" + "" + res);
             return ResponseEntity.status(HttpStatus.OK).body(res);
-        } catch (Exception e) {
 
+        } catch (Exception e) {
+            log.info("Response Body for /get/investigator");
             List<Investigators> lis = new ArrayList<>();
             InvestiGatorResponse res = new InvestiGatorResponse();
             res.setStatusCode("400");
